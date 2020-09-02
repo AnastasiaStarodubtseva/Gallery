@@ -1,0 +1,19 @@
+$light-blue: #e7ebf9;
+$white: #fff;
+$blue: #0b63dc;
+$grey: #383b3f;
+$light-grey: #aeb3b8;
+
+body {
+  background-color: $light-blue;
+}
+
+div.container {
+  padding-top: 20px;
+}
+
+.search {
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+}
