@@ -3,72 +3,63 @@ import './css/App.scss'
 import './css/normalize.css'
 import './css/skeleton.css'
 
-function take(n, xs) {
+function albumsWithPhotos(albums, photos) {
   var result = [];
-  for (var i = 0; i < Math.min(n, xs.length); i++) {
-    result.push(xs[i]);
-  }
-  return result;
-}
-
-function albumsWithAuthors(albums, authors) {
-  var result = [];
-  var author;
   for (var i = 0; i < albums.length; i++) {
-    author = authors.filter(author => albums[i].albumId === author.id)[0];
+    let albumPhotos = photosForAlbum(albums[i].id, photos);
     result.push({
       title: albums[i].title,
-      author: (author ? author.name : ''),
-      id: albums[i].id
+      coverPhoto: albumPhotos[0] ? albumPhotos[0].thumbnailUrl : '',
+      id: albums[i].id,
+      photosLength: photosForAlbum.length
     });
   }
   return result;
 }
 
+function photosForAlbum(albumId, photos) {
+  return photos.filter(photo => albumId === photo.albumId);
+}
+
+console.log(photosForAlbum);
+
 function Album(props) {
   return (
-    <div className="album">
+    <div className="album" onClick={() => props.focusOnAlbum(props.album.id)}>
+      <img alt="album cover" className='photo' src={props.album.coverPhoto}/>
       <p className='title'>{props.album.title}</p>
       <p className='author'>{props.album.author}</p>
+      <p className='album-length'>{props.album.photosLength}</p>
     </div>
   )
 }
 
 function App() {
   const [albums, setAlbums] = useState([]);
-  const [authors, setAuthors] = useState([]);
-  const [query, setQuery] = useState("");
+  const [photos, setPhotos] = useState([]);
+  const [albumInFocus, setAlbumInFocus] = useState(null);
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/photos')
+    fetch('https://jsonplaceholder.typicode.com/users/1/albums')
     .then(response => response.json())
     .then(json => setAlbums(json));
-  }, []);
 
-  function filterAlbums(album) {
-    return query
-      ? album.author.toUpperCase().includes(query.toUpperCase())
-      : true;
-  }
+    fetch('https://jsonplaceholder.typicode.com/photos')
+    .then(response => response.json())
+    .then(json => setPhotos(json));
+  }, []);
 
   return (
     <div className="container">
-    <div className="search">
-      <i className="fas fa-search"></i>
-      <input
-        type="search"
-        id="filter"
-        placeholder="Filter by album..."
-      />
+      <div className="albums">
+        {albumInFocus
+          ? photosForAlbum(albumInFocus, photos)
+          : albumsWithPhotos(albums, photos).map((album, i) => {
+              return <Album key={"album-" + album.id} album={album} focusOnAlbum={setAlbumInFocus} />
+            })
+        }
+      </div>
     </div>
-
-    <div className="albums">
-      {take(300, albumsWithAuthors(albums, authors).filter(filterAlbums)).map((album, i) => {
-        return <Album key={"album-" + album.id} album={album} />
-      })}
-    </div>
-
-  </div>
   )
 }
 
