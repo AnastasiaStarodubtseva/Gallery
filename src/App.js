@@ -39,9 +39,19 @@ function AlbumContents(props) {
     document.addEventListener('keyup', function(event) {
       if(event.keyCode === 27) {
         setSelectedPhoto(null);
+      } else if (event.keyCode === 39) {
+        let currentIndex = props.photos.findIndex((photo) => {
+          return photo && selectedPhoto && photo.id === selectedPhoto.id;
+        });
+        setSelectedPhoto(props.photos[currentIndex + 1])
+      } else if (event.keyCode === 37) {
+        let currentIndex = props.photos.findIndex((photo) => {
+          return photo && selectedPhoto && photo.id === selectedPhoto.id;
+        });
+        setSelectedPhoto(props.photos[currentIndex - 1])
       }
     });
-  }, []);
+  });
 
   return (
     <div>
