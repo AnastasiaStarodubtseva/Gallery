@@ -4,7 +4,6 @@ import './css/normalize.css'
 import './css/skeleton.css'
 import { Switch, Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
-
 function albumsWithPhotos(albums, photos) {
   var result = [];
   for (var i = 0; i < albums.length; i++) {
@@ -25,13 +24,10 @@ function photosForAlbum(albumId, photos) {
 
 function Album(props) {
   return (
-    <Link to={`/albums/${props.album.id}`}>
-      <div className='album'>
-        <img alt='album cover' className='photo' src={props.album.coverPhoto}/>
-        <p className='title'>{props.album.title}</p>
-        <p className='author'>{props.album.author}</p>
-        <p className='album-length'>{props.album.photosLength}</p>
-      </div>
+    <Link className="album" to={`/albums/${props.album.id}`}>
+      <img alt='album cover' className='album-cover' src={props.album.coverPhoto}/>
+      <p className='album-title'>{props.album.title}</p>
+      <p className='album-length'>{props.album.photosLength}</p>
     </Link>
   )
 }
@@ -47,7 +43,6 @@ function App() {
   const [photos, setPhotos] = useState([]);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users/1/albums')
     .then(response => response.json())
@@ -57,8 +52,6 @@ function App() {
     .then(response => response.json())
     .then(json => setPhotos(json));
   }, []);
-
-  console.log(selectedPhoto);
 
   return (
     <Router>
