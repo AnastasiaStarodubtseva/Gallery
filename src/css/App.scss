@@ -5,13 +5,82 @@ $grey: #383b3f;
 $light-grey: #aeb3b8;
 
 body {
-  background-color: $light-blue;
+  background-color: $white;
 }
 
-div.container {
-  padding-top: 20px;
+h2 {
+  font-size: 30px !important;
+  text-align: center;
+  color: #757580;
 }
 
-.album {
-  border: 1px solid #000;
+.albums {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+  .album {
+    border: 1px solid #e9ecec;
+    cursor: pointer;
+    flex: 25% 1;
+    padding: 20px;
+    margin: 10px;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+    border-radius: 0px;
+    height: 300px;
+    width: 300px;
+    margin: 10px;
+    display: inline-block;
+    img {
+      height: 200px;
+      width: 200px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    p {
+      text-align: center;
+      margin-bottom: 0;
+      color: #757580;
+      font-size: 13px;
+      text-transform: uppercase;
+      padding-top: 10px;
+      .album-length {
+        padding-top: 0;
+      }
+    }
+  }
+}
+.photo-list {
+  padding-left: 3.5%;
+  padding-top: 30px;
+  position: relative;
+}
+
+img {
+  margin-left: 10px;
+}
+
+.selected-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(55%);
+  padding-left: 30px;
+  margin-top: 30px;
+}
+
+.photos {
+  margin: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.background {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
