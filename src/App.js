@@ -32,6 +32,34 @@ function Album(props) {
   )
 }
 
+function AlbumContents(props) {
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+  useEffect(() => {
+    document.addEventListener('keyup', function(event) {
+      if(event.keyCode === 27) {
+        setSelectedPhoto(null);
+      }
+    });
+  }, []);
+
+  return (
+    <div>
+      <div className='container photo-list'>
+        {photosForAlbum(1, props.photos).map((photo, i) => {
+          return <Photo key={'photo-' + photo.thumbnailUrl} photo={photo} selectPhoto={setSelectedPhoto}/>
+        })}
+      </div>
+      {selectedPhoto
+        ? <div className='background' onClick={() => setSelectedPhoto(null)}>
+            <img className='selected-photo' src={selectedPhoto.url}/>
+          </div>
+        : <div />
+      }
+    </div>
+  );
+}
+
 function Photo(props) {
   return (
     <img alt='photo' src={props.photo.thumbnailUrl} onClick={() => props.selectPhoto(props.photo)} />
@@ -41,7 +69,7 @@ function Photo(props) {
 function App() {
   const [albums, setAlbums] = useState([]);
   const [photos, setPhotos] = useState([]);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users/1/albums')
@@ -57,15 +85,7 @@ function App() {
     <Router>
       <Switch>
         <Route path='/albums/:albumId'>
-          <div className='photo-list'>
-            {photosForAlbum(1, photos).map((photo, i) => {
-              return <Photo key={'photo-' + photo.thumbnailUrl} photo={photo} selectPhoto={setSelectedPhoto} />
-            })}
-            {selectedPhoto
-              ? <div className='background'> <img className='selected-photo' src={selectedPhoto.url}/></div>
-              : <div></div>
-            }
-          </div>
+          <AlbumContents photos={photos} />
         </Route>
         <Route path='/'>
           <div className='container'>
