@@ -4,9 +4,9 @@ The data source was been taken from http://jsonplaceholder.typicode.com/.
 
 Technologies which have been used for the website :
 
-React.js
-SCSS
-Skeleton
+React.js,
+SCSS,
+Skeleton,
 Normalize
 
 Also I worked out on the adaptive design.
